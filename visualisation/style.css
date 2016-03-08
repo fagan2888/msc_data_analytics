@@ -1,0 +1,123 @@
+/**
+ * Created by Maria Athena Engesaeth
+*/
+
+html {
+    margin:400;
+    padding:200;
+    background-color: #fffee4;
+    /*background-image: ;*/
+}
+
+body {
+    margin: 300;
+    padding: 300;
+    font-family: "helvetica", Arial;
+    font-size: 12px;
+    background-color: #fffee4;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    padding: 200;
+    color: #222;
+    font-weight: 600;
+}
+
+
+#visualisations {
+  padding: 200;
+  margin-left: 400;
+  margin-right: 200;
+  width: 1600;
+}
+
+
+#drawStackedGraph {
+  width: 700;
+  float: left;
+  /*
+  padding: 300;
+  position: absolute;
+  text-align: left; 
+  height: 28px;   
+  font: 12px sans-serif;  
+  background: #ffffff; 
+  border: 0px;          
+  border-radius: 8px;*/
+}
+
+#drawStackedMedalGraph {
+  float: left;
+  width: 700;
+  /*padding: 300;
+  margin-left: 800;
+  position: absolute;
+  text-align: right; 
+  width: 60px;  
+  height: 28px;   
+  padding: 2px; 
+  font: 12px sans-serif;  
+  background: #ffffff; 
+  border: 0px;          
+  border-radius: 8px;*/
+}
+
+
+div.tooltip {
+  position: absolute;
+  text-align: center; 
+  width: 60px;  
+  height: 28px;   
+  padding: 2px; 
+  font: 12px sans-serif;  
+  background: lightsteelblue; 
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+  
+}
+
+bar_hover {
+        stroke: #000000;
+        stroke-width: 2px;
+    }
+
+.axis line {
+  fill: none;
+  stroke: #585858;
+  shape-rendering: crispEdges;
+}
+
+.axis path {
+  fill: none;
+  stroke: #585858;
+  shape-rendering: crispEdges;
+}
+
+.axis--y-inside line {
+  stroke: #585858;
+  stroke-opacity: 1;
+}
+
+.axis--y-inside .tick:first-of-type line {
+  stroke: #585858;
+}
+
+.axis--y-inside text {
+  fill: none;
+  stroke: #585858;
+  shape-rendering: crispEdges;
+}
+
+.axis--x path {
+  fill: none;
+  stroke: #585858;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+	font-family: sans-serif;
+	font-size: 12px;
+	color: #585858;
+}
+
