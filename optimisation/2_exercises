@@ -1,0 +1,34 @@
+(1) Highly publicised salaries of CEOs in the United States have generated great interest in understanding the factors related to CEO compensation. To this end, the following table contains data on the annual compensation of the CEOs of 50 large publicly traded US companies, as well as information that we would hope could be used to predict CEO compensation (you find the Excel table in the exercises folder):
+Here, the meaning of the columns is as follows:
+- NUM = Company number (ranging from 1 to 50)
+- comp = Total compensation (in $ thousand, including bonuses, stock options etc.) - years = Years in current position (as CEO of the company)
+- change_stock = Change in stock price from previous year (in %)
+- change_sales = Change in company’s sales from previous year (in %)
+- mba=1iftheCEOhasanMBA,0otherwise
+(You can find the original table on page 298 of the Data, Models and Decisions book.)
+￼
+(a) Formulate the 1-norm regression problem for this data set (with the compensation as the dependent variable and the years, change_stock, change_sales and mba as independent variables) as a linear program. You can “index” the data by writing “compi”, “yearsi” etc. (For  the sake of simplicity, you may ignore the intercept β0 in your regression problem.)  
+(5 points)
+(b) Construct an AMPL file that solves the 1-norm regression problem. To this end, you can use the CEO_Comp.dat file in the exercises folder and import the data as follows: (20 points)
+set NUM ordered;
+param comp {NUM};
+param years {NUM};
+param change_stock {NUM};
+param change_sales {NUM};
+param mba {NUM};
+# company number
+# compensation
+# years in position
+# change in stock price # change in sales #MBAyes(1)orno(0)
+data CEO_Comp.dat;
+In your model, you can access the i-th element of comp via comp[i]. Also, you can create 
+variable vectors that are indexed by NUM (the company number) via
+var x {NUM};
+Similarly, the i-th component of x can be access via x[i]. You can sum over all elements of x via
+sum {i in NUM} x[i]
+Finally, you can create a set of constraints, one for each company NUM, via
+subject to constr {i in NUM}: ...
+You may want to consult the AMPL book (available online for free) for further information on 
+sets and indexing.
+(c) Formulate the infinity-norm regression problem for this data set (with the compensation as the dependent variable and the years, change_stock, change_sales and mba as independent variables) as a linear program. You can “index” the data by writing “compi”, “yearsi” etc. Justify why your model gives the correct solution (similar to our argumentation for the 1-norm problem in the lecture)! (For the sake of simplicity, you may ignore the intercept β0 in your regression problem.) (20 points)
+(d) Construct an AMPL file that solves the infinity-norm regression problem. (5 points)

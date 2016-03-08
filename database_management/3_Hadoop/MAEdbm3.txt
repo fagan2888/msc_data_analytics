@@ -1,0 +1,12 @@
+# Assignment 3 for MSc Business Analytics, DataBase Management
+
+# Maria Athena B. Engesaeth 
+# CID 01159179
+
+
+
+# A. Find all mentions of U2 in lastfm dataset
+# 664940
+
+# B. Find all songs that have > 600million plays
+# b10bbbfc-cf9e-42e0-be17-e2c3e1d2600dthe beatles	609982800

@@ -1,0 +1,21 @@
+(3) The R&D Division of the Progressive Company has been developing four possible new product lines. The board of the company must now make a decision as to which of these four products actually will be produced and at what levels. A substantial cost is associated with beginning the production of any product, as given in the first row of the following table. The company has already undertaken a market research, which has led to estimates of the maximum demand for each product (third row). Assume that the company wants to find the product mix that maximises the total profit (i.e., the total net revenues [using the unit costs from the second row] minus the start-up costs). 
+ 
+Moreover, the production plan is restricted by the following considerations: 
+1. At most two of the product lines should be produced. 
+2. Product 3 can only be produced if either product 1 or product 2 is produced. 
+3. Either the cumulative production quantities of products 1 and 2 are below 20,000, or the cumulative production quantities of products 3 and 4 are below 20,000.
+(a) Formulate an optimisation model that determines the profit-maximising production mix.
+(35 points)
+(b) Solve your model using Excel. What is the profit-maximising production mix? 
+(15 points)
+
+
+(4) The office manager of a large City-based accounting firm needs to replace the ageing and out-of-style office furniture. The firm has decided to purchase new desk/chair/ credenza furniture sets for all 2,000 offices in London. The company has received bids from four different furniture companies who are willing to supply the furniture sets, as follows: 
+1. Caroline Woodworks has bid to deliver up to 1,000 furniture sets at a cost of £2,500 per set and with a one-time delivery charge of £10,000. 
+2. Nashawtuc Millworks has bid to supply up to 1,200 furniture sets at a cost of £2,450 per set and with a one-time delivery charge of £20,000. 
+3. Adirondack Furnishing Designs has bid to supply up to 800 furniture sets at a cost of £2,510 per set but with no delivery charge. 
+4. Lancaster Artisan Company has bid to supply up to 1,100 furniture sets at a cost of £2,470 per set and with a one-time delivery charge of £13,000.
+(a) Construct an optimisation model that purchases 2,000 furniture sets at minimum overall cost. (20 points) 
+(b) Use AMPL to determine the optimal solution. (10 points) 
+(c) (Tricky!) Suppose that a fifth company, Delaware Mills, has submitted a bid to supply up to 1,000 furniture sets at a cost of £2,530 per set and a one-time delivery charge of £9,000. However, if between 1,000 and 1,500 furniture sets are purchased from Delaware Mills, then Delaware Mills charges only £2,430/set for the additional furniture sets beyond the 1,000, with an additional delivery charge of only £7,000. Incorporate this new bid into your model and resolve for the optimal purchasing strategy. 
+(20 points)

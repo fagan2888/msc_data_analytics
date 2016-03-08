@@ -1,0 +1,6 @@
+(3) The table below lists the 10 largest components of the FTSE 100 share index by market capitalisation (as of 29 May 2014)
+
+(a) Download the last two years of weekly price data for each of those stocks (you can use Google Finance or Yahoo Finance, for example). Make sure you use the “Adjusted Close” data (which are the daily closing prices, adjusted for dividends and stock splits). Present your return data in a table (e.g. in Excel). (10 points)
+(b) Using the data from part (a), calculate the mean weekly return for each stock, as well as the covariances of the weekly returns between all pairs of stocks. Present your results in a table. (20 points)
+(c) By solving a sequence of Markowitz problems, produce a graph that shows the efficient frontier. Present the optimal portfolio composition for three selected portfolios (low return/low risk, medium return/medium risk and high return/high risk). Also plot each of the aforementioned 10 individual assets. (50 points)
+(d) How would your optimisation problem change if you are only allowed to invest in at most one company per sector? You do not have to solve the new optimisation problem!  (20 points)

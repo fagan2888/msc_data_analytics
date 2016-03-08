@@ -1,0 +1,17 @@
+(3) The Primo Insurance Company is introducing two new product lines: special risk insurance and mortgages. The expected profit is £5/unit on special risk insurance and £2/unit on mortgages. Management wishes to establish sales quotas for the new product lines to maximise total expected profit. 
+
+(a) Formulate a linear program for this problem. (10 points) 
+(b) Use the graphical method to solve this problem. What is the optimal solution, and what
+is its objective value? Which constraints are binding at the optimal solution? (15 points) 
+(c) Verify the exact value of your optimal solution from part (b) by solving algebraically for
+the simultaneous solution of the relevant equations. (10 points) 
+(d) Solve the model in Excel using Excel’s add-in solver. Make sure you submit the Excel
+spreadsheet! (15 points)
+
+
+(4) Nature’s Best Frozen Foods company produces 4 mixes of frozen ready-to-eat vegetables. The mixes consists of five different vegetables: carrots, mushrooms, green peppers, broccoli and corn. The mixes are “Stir Fry”, “Barbecue”, “Hearty Mushrooms” and “Veggie Crunch”, and each mix is sold in 250g bags. Each bag of “Stir Fry”, “Barbecue”, “Hearty Mushrooms” and “Veggie Crunch” contributes £0.22, £0.20, £0.18 and £0.18 to the company’s earnings, respectively.
+
+(a) Assuming that the company can sell all the mixes that they produce, formulate a linear program that determines a production plan which maximises the total earnings. 
+(20 points)
+(b) Solve the linear program using AMPL. What is the optimal solution, and what is its objective value? Which constraints are binding at the optimal solution? Make sure you submit the AMPL model! (20 points)
+(c) What is the value of an extra 100g of green peppers? (10 points)
