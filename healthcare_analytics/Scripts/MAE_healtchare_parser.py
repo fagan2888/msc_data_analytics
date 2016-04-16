@@ -47,7 +47,7 @@ def other_races(the_race):
         return the_race
         
 
-# Group the two readmissions variable for the final visualisations
+# Group the two readmissions variable
 def under_30(sickies):
     if sickies == 1:
         return 'readmitted_under30'
@@ -62,7 +62,7 @@ def over_30(sickos):
         return None
 
 
-# Create Patient Profile
+# Patient Profile Variables (dummy variables)
 
 # Create dummy variable columns for gender field
 gender_df = pd.concat([df['Patient ID'], pd.get_dummies(df.gender, prefix='Gender')], axis=1)
@@ -83,15 +83,14 @@ profile_df = gender_df.merge(age_df,
                              on='Patient ID').merge(race_df, on='Patient ID')
 
 
-# For the visual representation create column combining the readmissions vars
+# Create column combining readmissiongs OVER & UNDER 30 days
+# First transform from dummy var columns
 df['readmitted_under30'] = df.readmission_lessthan30.apply(lambda x: under_30(x))
 df['readmitted_over30'] = df.readmission_morethan30.apply(lambda x: over_30(x))
+# Combine the two transformed columns
 df['readmissions'] = df[['readmitted_under30', 'readmitted_over30']].fillna('').sum(axis=1)
-
-#readmitted_df = pd.concat([df['Patient ID'], pd.get_dummies(df.readmissions, prefix='Readmitted')], axis=1)
-
 df['readmitted'] = df[['readmission_lessthan30', 'readmission_morethan30']].sum(axis=1)
-
+# Remove unnecessary columns
 df.drop(['readmitted_under30', 'readmitted_over30'],  axis=1, inplace=True)
 
 # Joining dataframes to export as csv
