@@ -1,0 +1,9 @@
+# History files
+#.Rapp.history
+
+# Session Data files
+#.RData
+
+# RetailAnalytics Confidential Data
+retail_analytics/Data/CarbonatesBottlesandCans.csv
+retail/Data/InstantCoffee (confidential).csv
