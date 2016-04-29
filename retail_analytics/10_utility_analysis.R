@@ -22,7 +22,7 @@ long_coffee <- na.omit(long_coffee)
 long_coffee <- long_coffee[long_coffee$price > 0, ]
 
 long_coffee <- long_coffee %>%
-  select(relweek, day, house, brand, choice, brand_loyalty,
+  select(relweek, day, transaction_id, house, brand, choice, brand_loyalty,
          cust_type, price, promo_price, promo_units, 
          ref_price, gain, loss, unchanged) %>%
   mutate(relweek = as.factor(relweek),
@@ -40,7 +40,7 @@ TM.coffee <- mlogit.data(long_coffee,
                          choice = "choice",
                          shape = "long",
                          alt.levels = "brand",
-                         chid.var = "transaction_id",
+                         #chid.var = "transaction_id",
                          id.var = "house")
 
 str(TM.coffee)
@@ -52,6 +52,7 @@ table(TM.coffee$choice)
 TM1 <- TM.coffee[TM.coffee$house == '56095', ]
 str(TM1)
 summary(TM.coffee$brand_loyalty)
+
 mktshare <- mlogit(choice ~ price, data=TM1)
 
 mktshare <- mlogit(choice ~ price, data=TM.coffee)
@@ -71,7 +72,7 @@ model <- mlogit(choice ~ price + display + feature + brand_loyalty + gain + loss
 # Filter and clean data ---------------------------------------------------------
 
 #coffee <- coffee %<% 
-
+  
   
 # Modeling ----------------------------------------------------------------------
 

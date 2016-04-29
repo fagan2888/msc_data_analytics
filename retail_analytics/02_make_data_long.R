@@ -27,12 +27,12 @@ coffee_parsed <- read.csv("./Data/parsed_coffee.csv",
 # Create dataframe with brand availability --------------------------------------
 
 # Aggregate by what brands were selected at same shop on same day
-brand_avail1 <- coffee_parsed %>%
+pre_brand_avail <- coffee_parsed %>%
   #select(-house, -brand_loyalty, -cust_type, -last_choice,
   #       -ref_price, gain, loss, unchanged) %>%
+  #mutate(soon_unique = paste(relweek, day, shop_desc_clean, sep=":")) %>%
   
-  mutate(soon_unique = paste(relweek, day, shop_desc_clean, sep=":")) %>%
-  group_by(transaction_id, relweek, day, soon_unique,
+  group_by(transaction_id, relweek, day,
            house, shop_desc_clean, brand_clean) %>%
   
   # to avoid duplicate error as data has packs over several rows
@@ -43,44 +43,57 @@ brand_avail1 <- coffee_parsed %>%
   
   #summarise(temp_avail_var=paste(brand_clean, collapse=":")) 
   spread(brand_clean, choice) %>%
-  gather(brand, choice, 7:12) %>% 
+  gather(brand, choice, 6:11) %>% 
   arrange(transaction_id, house) %>% 
-  mutate(brand = as.character(brand)) %>%
-  mutate(super_unique = paste(soon_unique, brand, sep=":")) %>%
-  mutate(choice = replace(choice, which(is.na(choice)), 0))
-
-# Dataframe containing prices by unique id
-price_df <- coffee_parsed %>%
-  select(relweek, day, house, shop_desc_clean, brand_clean, price) %>%
-  mutate(brand = as.character(brand_clean)) %>%
-  mutate(super_unique = paste(relweek, day, shop_desc_clean, brand, sep=":")) %>%
-  select(-relweek, -day, -shop_desc_clean, -brand_clean, -brand, -house)
+  rename(shop = shop_desc_clean) %>%
+  #mutate(super_unique = paste(soon_unique, brand, sep=":")) %>%
+  mutate(choice = replace(choice, which(is.na(choice)), 0)) %>%
+  arrange(relweek, day, brand, shop)
 
 
-length(unique(price_df$super_unique))
-length(unique(brand_avail1$super_unique))
+# Dataframe containing prices - create average daily prices by shop by brand
+price_df <- coffee_parsed %>% 
+  group_by(relweek, day, brand_clean, shop_desc_clean) %>% 
+  summarise(price = mean(price),
+            promo_price = mean(promo_price),
+            promo_units = mean(promo_units)) %>% 
+  rename(brand = brand_clean) %>%
+  rename(shop = shop_desc_clean) %>%
+  arrange(relweek, day, brand, shop)
+
+
+# Total average prices by shop by brand
+# Some price fields come out NAs due to missing information.
+# Therefor we create a filler data frame with overall averages 
+# across the entire year.
+tot_avg_prices <- coffee_parsed %>% 
+  group_by(shop_desc_clean, brand_clean) %>% 
+  summarise(tot_avg_price = mean(price),
+            tot_avg_price_promo = mean(promo_price),
+            tot_avg_unit_promo = mean(promo_units)) %>% 
+  rename(shop = shop_desc_clean) %>%
+  rename(brand = brand_clean)
+
 
 # Join
-brand_avail <- merge(brand_avail1, price_df, by="super_unique", all=F, sort=F) 
-brand_avail <- full_join(brand_avail1, price_df, by="super_unique")
-brand_avail <- rbind(brand_avail1, price_df)
-
-#brand_avail <- merge(cbind(brand_avail1, X= , price_df, by="super_unique", all=T, sort=F) 
-merge(cbind(dat1, X=rownames(dat1)), cbind(dat2, variable=rownames(dat2)))
-
-brand_avail <- brand_avail %>%
-  select(-soon_unique, -super_unique)
-
-brand_avail <- brand_avail1 %>%
-    left_join(price_df, by = c("super_unique"))
+brand_avail <- pre_brand_avail %>%
+  left_join(price_df, by = c("relweek", "day", "brand", "shop")) %>%
+  left_join(tot_avg_prices) %>% 
+  mutate(price = ifelse(is.na(price), tot_avg_price, price),
+         promo_price = ifelse(is.na(promo_price), tot_avg_price_promo, price),
+         promo_units = ifelse(is.na(promo_units), tot_avg_unit_promo, price)) %>%
+  #mutate(price = rowSums(cbind(price:tot_avg_price), na.rm=TRUE),
+  #       promo_price = rowSums(cbind(price:tot_avg_price_promo), na.rm=TRUE),
+  #       promo_units = rowSums(cbind(price:tot_avg_unit_promo), na.rm=TRUE)) %>% 
+  select(-tot_avg_price, -tot_avg_price_promo, -tot_avg_unit_promo) %>% 
+  ungroup()
 
 
 # Create data frame with variable to join ----------------------------------------
 
 house_vars <- coffee_parsed %>%
   select(transaction_id, house, brand_loyalty, cust_type,
-         last_choice, promo_price, promo_units,
-         ref_price, gain, loss, unchanged)
+         last_choice, ref_price, gain, loss, unchanged)
 
 # Joint to create long version incl. all variables -------------------------------
 
@@ -88,7 +101,7 @@ coffee_long <- brand_avail %>%
   left_join(house_vars, by = c("transaction_id", "house"))
 
 # Clean memory output csv -------------------------------------------------------
-rm(coffee_parsed, brand_avail1, brand_avail, price_df, house_vars)
+rm(coffee_parsed, pre_brand_avail, brand_avail, price_df, house_vars)
 gc(verbose = FALSE)
 
 write_csv(coffee_long, "./Data/long_data.csv")
