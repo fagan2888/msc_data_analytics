@@ -1,17 +1,6 @@
 # Research Project - Maria Athena B. Engesaeth
 # 02_make_data_long
 #
-# Prepare working environment---------------------------------------------------
-
-library(readr)
-library(magrittr)
-library(tidyr)
-library(dplyr)
-select <- dplyr::select
-library(mlogit)
-library(countreg)
-
-
 # Read parsed data -------------------------------------------------------------
 coffee_parsed <- read.csv("./Data/parsed_coffee.csv", 
                    encoding = "latin1", 
@@ -54,9 +43,11 @@ pre_brand_avail <- coffee_parsed %>%
 # Dataframe containing prices - create average daily prices by shop by brand
 price_df <- coffee_parsed %>% 
   group_by(relweek, day, brand_clean, shop_desc_clean) %>% 
-  summarise(price = mean(price),
+  summarise(price =  mean(price),
             promo_price = mean(promo_price),
-            promo_units = mean(promo_units)) %>% 
+            promo_units = mean(promo_units)) %>%
+  mutate(promo_price = ifelse(promo_price>0.4, 1, 0),
+         promo_units = ifelse(promo_units>0.4, 1, 0)) %>% 
   rename(brand = brand_clean) %>%
   rename(shop = shop_desc_clean) %>%
   arrange(relweek, day, brand, shop)
@@ -67,27 +58,30 @@ price_df <- coffee_parsed %>%
 # Therefor we create a filler data frame with overall averages 
 # across the entire year.
 tot_avg_prices <- coffee_parsed %>% 
-  group_by(shop_desc_clean, brand_clean) %>% 
+  group_by(shop_desc_clean, brand_clean, transaction_id, relweek, day) %>% 
   summarise(tot_avg_price = mean(price),
             tot_avg_price_promo = mean(promo_price),
-            tot_avg_unit_promo = mean(promo_units)) %>% 
+            tot_avg_unit_promo = mean(promo_units)) %>%
   rename(shop = shop_desc_clean) %>%
   rename(brand = brand_clean)
 
 
-# Join
+# Join brand availability data frame and prices data frames
 brand_avail <- pre_brand_avail %>%
   left_join(price_df, by = c("relweek", "day", "brand", "shop")) %>%
   left_join(tot_avg_prices) %>% 
   mutate(price = ifelse(is.na(price), tot_avg_price, price),
-         promo_price = ifelse(is.na(promo_price), tot_avg_price_promo, price),
-         promo_units = ifelse(is.na(promo_units), tot_avg_unit_promo, price)) %>%
+         promo_price = ifelse(is.na(promo_price), tot_avg_price_promo, 0),
+         promo_units = ifelse(is.na(promo_units), tot_avg_unit_promo, 0)) %>%
   #mutate(price = rowSums(cbind(price:tot_avg_price), na.rm=TRUE),
   #       promo_price = rowSums(cbind(price:tot_avg_price_promo), na.rm=TRUE),
   #       promo_units = rowSums(cbind(price:tot_avg_unit_promo), na.rm=TRUE)) %>% 
   select(-tot_avg_price, -tot_avg_price_promo, -tot_avg_unit_promo) %>% 
   ungroup()
 
+avg_price = mean(price_df$price)
+brand_avail <- brand_avail %>%
+  mutate(promo_price = ifelse(price < avg_price, 1, 0))
 
 # Create data frame with variable to join ----------------------------------------
 

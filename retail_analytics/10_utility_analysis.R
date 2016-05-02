@@ -2,7 +2,6 @@
 # 10_utility_analysis
 #
 # Prepare working environment---------------------------------------------------
-
 library(readr)
 library(magrittr)
 library(tidyr)
@@ -11,59 +10,68 @@ select <- dplyr::select
 library(mlogit)
 library(countreg)
 
+# Clean up
+rm(list = ls())
 
-# Read parsed data -------------------------------------------------------------
-long_coffee <- read.csv("./Data/long_data.csv", 
+# Load parsed, filtered and cleaned --------------------------------------------
+
+coffee <- read.csv("./Data/long_mlogit_readable.csv",
                    encoding = "latin1", 
-                   stringsAsFactors = FALSE) %>% 
+                   stringsAsFactors = FALSE, row.names=NULL) %>% 
   as_data_frame()
 
-long_coffee <- na.omit(long_coffee)
-long_coffee <- long_coffee[long_coffee$price > 0, ]
+# Make GAIN & LOSS variables dummies
+coffee <- coffee %>%
+  mutate(gain = ifelse(gain>0,1,gain),
+         loss = ifelse(loss<0,1,loss))
 
-long_coffee <- long_coffee %>%
-  select(relweek, day, transaction_id, house, brand, choice, brand_loyalty,
-         cust_type, price, promo_price, promo_units, 
-         ref_price, gain, loss, unchanged) %>%
-  mutate(relweek = as.factor(relweek),
-         day = as.factor(day),
-         brand = as.factor(brand),
-         cust_type = as.factor(cust_type),
-         house = as.character(house))
-
-# Quick overview of fields in the dataset
-str(long_coffee)
-summary(long_coffee)
-
-# Define the format of the data
-TM.coffee <- mlogit.data(long_coffee,
+# Define the format of the data for mlogit
+TM.coffee <- mlogit.data(coffee,
                          choice = "choice",
                          shape = "long",
-                         alt.levels = "brand",
-                         #chid.var = "transaction_id",
+                         alt.var = "brand",
+                         chid.var = "transaction_id",
                          id.var = "house")
 
-str(TM.coffee)
-summary(TM.coffee$price)
-table(TM.coffee$choice)
 
-# Market share model ----------------------------------------------------------
+# Compute utilities ------------------------------------------------------------
 
-TM1 <- TM.coffee[TM.coffee$house == '56095', ]
-str(TM1)
-summary(TM.coffee$brand_loyalty)
 
-mktshare <- mlogit(choice ~ price, data=TM1)
 
-mktshare <- mlogit(choice ~ price, data=TM.coffee)
+# Market share model ---------------------------------------------
+
+mrkt.share1 <- mlogit(choice ~ price, data=TM.coffee)
+summary(mrkt.share1)
+
+mrkt.share2 <- mlogit(choice ~ price + promo_price, data=TM.coffee)
+mrkt.share2 <- mlogit(choice ~ price + loss + gain, data=TM.coffee)
+summary(mrkt.share2)
+
+
+# 
+mrkt.share1 <- mlogit(choice ~ price, data=TM.coffee)
+
+
+# Reading the results:
+# Now price seems to have less of an effect because before it was capturing 
+# part of the effect of display and feature; notice that all of the parameters 
+# are not as easy to interpret as in linear regression, i.e. we can not compute
+# price elasticities from these. However we can compute them by simulating.
+# i.e. add 10% to the price and lokk at what happens to the demand.
+
+
+
+
+
+
+
+
+# XXXXX model ---------------------------------------------
+
 mktshare <- mlogit(choice ~ price + promo_price + brand_loyalty, data=TM.coffee)
-summary(mkt.share)
 
-l<-sapply(TM.coffee, function(x)is.factor(x))
-m<-TM.coffee[, names(which(l=="TRUE"))]
-ifelse(n<-sapply(m,function(x)length(levels(x)))==1,"DROP","NODROP")
 
-#data.pois <- data.butter[data.butter$choice=='1', ]
+
 
 
 model <- mlogit(choice ~ price + display + feature + brand_loyalty + gain + loss, 
@@ -72,8 +80,8 @@ model <- mlogit(choice ~ price + display + feature + brand_loyalty + gain + loss
 # Filter and clean data ---------------------------------------------------------
 
 #coffee <- coffee %<% 
-  
-  
+
+
 # Modeling ----------------------------------------------------------------------
 
 
