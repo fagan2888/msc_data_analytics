@@ -7,7 +7,6 @@ long_coffee <- read.csv("./Data/long_data.csv",
                    stringsAsFactors = FALSE, row.names=NULL) %>% 
   as_data_frame()
 
-
 # Remove NAs
 long_coffee <- na.omit(long_coffee)
 long_coffee <- long_coffee[long_coffee$price > 0, ]
@@ -28,10 +27,9 @@ long_coffee <- long_coffee %>%
 # Remove aberrant observation causing error in mlogit.data load
 #    -> removes rows duplicated by transaction, likely caused
 lst1 <- split(long_coffee, long_coffee$transaction_id) 
-mlogit_readable_long <- do.call(rbind, lst1[lapply(lst1, nrow) == 6]) # You can change 6 to other numbers
+mlogit_readable_long <- do.call(rbind, lst1[lapply(lst1, nrow) == 6]) # 6=nb of difd. brands
 
 write_csv(mlogit_readable_long, "./Data/long_mlogit_readable.csv")
-
 
 # Quick overview of fields in the dataset
 #str(long_coffee)

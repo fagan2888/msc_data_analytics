@@ -2,13 +2,7 @@
 # 01_parse_rawdata
 #
 # Prepare working environment---------------------------------------------------
-
-library(readr)
-library(magrittr)
-library(dplyr)
-select <- dplyr::select
 library(DescTools)
-
 
 # Read raw data ----------------------------------------------------------------
 coffee <- read.csv("./Data/InstantCoffee (confidential).csv", 
@@ -89,9 +83,6 @@ brand <- coffee_clean %>%
 # Rationalise brands
 brand <- brand %>% 
   mutate(brand_clean = ifelse(sales < 5000, "OtherBrands", brand_name),
-         #brand_clean = ifelse(brand_name == "PL_Standard", "Supermarket own", brand_clean),
-         #brand_clean = ifelse(brand_name == "PL_Premium", "Supermarket premium", brand_clean),
-         #brand_clean = ifelse(brand_name == "PL_Value", "Supermarket value", brand_clean),
          brand_clean = ifelse(grepl("PL_", brand_name), "SupermarketOwn", brand_clean),
          brand_clean = ifelse(grepl("Nescaf", brand_name), "Nescafe", brand_clean),
          brand_clean = gsub("\\(.*\\)", "", brand_clean)) %>% 
@@ -104,9 +95,9 @@ coffee_clean <- coffee_clean %>%
   select(-year, -sub_cat_name, -netspend, -brand_name,
          -total_range_name, -epromdesc, -shop_desc)
 
-
 # Add variable: Reference price -------------------------------------------------
 
+coffee_clean <- coffee_clean[coffee_clean$promo_units<1,]
 # (i.e. previous price spent)
 coffee_clean <- coffee_clean %>%
   group_by(house) %>%
@@ -166,11 +157,17 @@ house_summary <- coffee_clean %>%
   summarise(avg_weekly_vol = mean(total_vol))
 
 # Classify light / medium / heavy users
-quartiles <- quantile(house_summary$avg_weekly_vol)
+#quartiles <- quantile(house_summary$avg_weekly_vol)
+#light_vs_heavy <- house_summary %>% 
+  #mutate(cust_type = ifelse(avg_weekly_vol <= quartiles[2], "light",
+   #                         ifelse(avg_weekly_vol >= quartiles[4], "heavy", 
+    #                               "medium"))) %>% 
+
+# Classify light / medium / heavy users
+med_volume <- median(house_summary$avg_weekly_vol)
 light_vs_heavy <- house_summary %>% 
-  mutate(cust_type = ifelse(avg_weekly_vol <= quartiles[2], "light",
-                            ifelse(avg_weekly_vol >= quartiles[4], "heavy", 
-                                   "medium"))) %>% 
+  mutate(cust_type = ifelse(avg_weekly_vol <= med_volume, "light",
+                            ifelse(avg_weekly_vol > med_volume, "heavy", NA))) %>%
   select(house, cust_type)
 
 # Join variable on to data
@@ -179,7 +176,7 @@ coffee_clean <- coffee_clean %>% left_join(light_vs_heavy, by = "house")
 
 # Clean memory output csv -----------------------------------------------------
 rm(coffee, trans_id, brand, brand_breakdown, 
-   house_summary, light_vs_heavy, quartiles)
+   house_summary, light_vs_heavy)
 gc(verbose = FALSE)
 
 write_csv(coffee_clean, "./Data/parsed_coffee.csv")

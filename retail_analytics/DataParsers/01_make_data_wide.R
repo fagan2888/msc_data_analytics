@@ -1,16 +1,6 @@
 # Research Project - Maria Athena B. Engesaeth
 # 01_make_data_wide
 #
-# Prepare working environment---------------------------------------------------
-
-library(magrittr)
-library(tidyr)
-library(dplyr)
-select <- dplyr::select
-library(mlogit)
-library(countreg)
-
-
 # Read parsed data -------------------------------------------------------------
 coffee_parsed <- read.csv("./Data/parsed_coffee.csv", 
                    encoding = "latin1", 
@@ -19,21 +9,23 @@ coffee_parsed <- read.csv("./Data/parsed_coffee.csv",
 
 
 # Quick overview of fields in the dataset
-str(coffee_parsed)
-summary(coffee_parsed)
+#str(coffee_parsed)
+#summary(coffee_parsed)
 
 
 # Filter and clean data ---------------------------------------------------------
-
+coffee_clean <- coffee_clean %>%
+  group_by(house) %>%
+  mutate(ref_price = lag(price, 1))
 # In-line function definition used in this script only
 # This function takes the coffee data, filters to just one customer type (e.g.
-# heavy or light), aggregates to a weekly level and then spreads the data
+# heavy or light), aggregates to a daily level and then spreads the data
 # in to a wide form suitable for modelling
 filter_and_widen <- function(data, cust_status = 0) {
   # Filter and widen at brand level
   brand_level <- data %>% 
     filter(cust_type == cust_status) %>% 
-    group_by(relweek, brand_clean) %>% 
+    group_by(relweek, day, brand_clean) %>% 
     summarise(sales = sum(packs),
               price = mean(price),
               promo_sales_price = sum(promo_price),
@@ -51,7 +43,7 @@ filter_and_widen <- function(data, cust_status = 0) {
   # Calculate total sales
   total_sales <- data %>% 
     filter(cust_type == cust_status) %>% 
-    group_by(relweek) %>% 
+    group_by(relweek, day) %>% 
     summarise(total_sold = sum(packs))
   
   # Join together
@@ -74,9 +66,36 @@ filter_and_widen <- function(data, cust_status = 0) {
 # Filter and perform the spread -----------------------------------------------
 
 heavy <- filter_and_widen(coffee_parsed, "heavy")
-medium <- filter_and_widen(coffee_parsed, "medium")
+#medium <- filter_and_widen(coffee_parsed, "medium")
 light <- filter_and_widen(coffee_parsed, "light")
+everyone <- filter_and_widen(coffee_parsed, c("light", "heavy"))
 
+# Create dummies for GAIN/LOSS ------------------------------------------------
+heavy <- heavy %>%
+  mutate(carte_noire_cons_loss = ifelse(lag(carte_noire_price, 1) > carte_noire_price, 0, 1),
+         douwe_egbert_cons_loss = ifelse(lag(douwe_egbert_price, 1) > douwe_egbert_price, 0, 1),
+         kenco_cons_loss = ifelse(lag(kenco_price, 1) > kenco_price, 0, 1),
+         nescafe_cons_loss = ifelse(lag(nescafe_price, 1) > nescafe_price, 0, 1),
+         other_brands_cons_loss = ifelse(lag(otherbrands_price, 1) > otherbrands_price, 0, 1),
+         supermarket_own_cons_loss = ifelse(lag(supermarketown_price, 1) > supermarketown_price, 0, 1))
+
+light <- light %>%
+  mutate(carte_noire_cons_loss = ifelse(lag(carte_noire_price, 1) > carte_noire_price, 0, 1),
+         douwe_egbert_cons_loss = ifelse(lag(douwe_egbert_price, 1) > douwe_egbert_price, 0, 1),
+         kenco_cons_loss = ifelse(lag(kenco_price, 1) > kenco_price, 0, 1),
+         nescafe_cons_loss = ifelse(lag(nescafe_price, 1) > nescafe_price, 0, 1),
+         other_brands_cons_loss = ifelse(lag(otherbrands_price, 1) > otherbrands_price, 0, 1),
+         supermarket_own_cons_loss = ifelse(lag(supermarketown_price, 1) > supermarketown_price, 0, 1))
+
+everyone <- everyone %>%
+  mutate(carte_noire_cons_loss = ifelse(lag(carte_noire_price, 1) > carte_noire_price, 0, 1),
+         douwe_egbert_cons_loss = ifelse(lag(douwe_egbert_price, 1) > douwe_egbert_price, 0, 1),
+         kenco_cons_loss = ifelse(lag(kenco_price, 1) > kenco_price, 0, 1),
+         nescafe_cons_loss = ifelse(lag(nescafe_price, 1) > nescafe_price, 0, 1),
+         other_brands_cons_loss = ifelse(lag(otherbrands_price, 1) > otherbrands_price, 0, 1),
+         supermarket_own_cons_loss = ifelse(lag(supermarketown_price, 1) > supermarketown_price, 0, 1))
+
+# Clean up -------------------------------------------------------------------
 
 # Convert missing values to 0
 # heavy[is.na(heavy)] <- 0
@@ -90,11 +109,11 @@ for(i in 1:ncol(heavy)){
   # print(val)
 }
 
-for(i in 1:ncol(medium)){
-  val <- mean(medium[,i] %>% sapply(as.numeric), na.rm = TRUE)
-  light[is.na(medium[,i]), i] <- val
-  # print(val)
-}
+# for(i in 1:ncol(medium)){
+#   val <- mean(medium[,i] %>% sapply(as.numeric), na.rm = TRUE)
+#   light[is.na(medium[,i]), i] <- val
+#   # print(val)
+# }
 
 for(i in 1:ncol(light)){
   val <- mean(light[,i] %>% sapply(as.numeric), na.rm = TRUE)
@@ -106,5 +125,7 @@ for(i in 1:ncol(light)){
 
 # Output csv -------------------------------------------------------------------
 write_csv(heavy, "./Data/wide_only_heavy.csv")
-write_csv(medium, "./Data/wide_only_medium.csv")
+#write_csv(medium, "./Data/wide_only_medium.csv")
 write_csv(light, "./Data/wide_only_light.csv")
+write_csv(everyone, "./Data/wide_everyone.csv")
+

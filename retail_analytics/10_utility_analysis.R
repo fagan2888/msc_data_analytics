@@ -8,17 +8,30 @@ library(tidyr)
 library(dplyr)
 select <- dplyr::select
 library(mlogit)
-library(countreg)
+#library(countreg)
 
 # Clean up
 rm(list = ls())
 
 # Load parsed, filtered and cleaned --------------------------------------------
 
-coffee <- read.csv("./Data/long_mlogit_readable.csv",
+# coffee <- read.csv("./Data/long_mlogit_readable.csv",
+coffee <- read.csv("./Data/long_data.csv",
                    encoding = "latin1", 
                    stringsAsFactors = FALSE, row.names=NULL) %>% 
   as_data_frame()
+
+coffee <- coffee %>%
+  select(relweek, day, transaction_id, house, brand, shop, choice, price,
+         ref_price, gain, loss, unchanged,
+         brand_loyalty, cust_type, promo_price, promo_units) %>%
+  mutate(relweek = as.factor(relweek),
+         day = as.factor(day),
+         shop = as.factor(shop),
+         brand = as.factor(brand),
+         #cust_type = as.factor(cust_type),
+         house = as.character(house)) %>%
+  arrange(transaction_id)
 
 # Make GAIN & LOSS variables dummies
 coffee <- coffee %>%
@@ -26,6 +39,7 @@ coffee <- coffee %>%
          loss = ifelse(loss<0,1,loss))
 
 # Define the format of the data for mlogit
+coffee$row <- 1:nrow(coffee)
 TM.coffee <- mlogit.data(coffee,
                          choice = "choice",
                          shape = "long",
