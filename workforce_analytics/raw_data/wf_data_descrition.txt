@@ -1,0 +1,9 @@
+DATA SET DESCRIPTIONS
+
+D1:	 10-K filings from http://www.sec.gov/answers/form10k.htm on firms in the     semiconductor industry. 
+
+D2:  Firm-level data which includes data on investments and size (I will provide this).
+
+D3:  Patent data which includes inventor names and unique inventor identifiers.
+
+D4.  Data on ethnicities of inventors.
