@@ -1,0 +1,77 @@
+actual,staff,matched_to,sim,correct
+brevan_howard,Professor Franklin Allen,enterprise_research_centre,0.0449438202247,False
+brevan_howard,Professor Douglas Gale,brevan_howard,0.0625,True
+centre_for_management_buy_out_research,"Wright, Mike Professor",brevan_howard,0.0777777777778,False
+enterprise_research_centre,"Wright, Mike Professor",brevan_howard,0.0777777777778,False
+centre_for_management_buy_out_research,"Ball, Rod",brevan_howard,0.0,False
+centre_for_management_buy_out_research,"Ball, Rod",centre_for_management_buy_out_research,0.0,True
+centre_for_management_buy_out_research,"Ball, Rod",digital_city_exchange,0.0,False
+centre_for_management_buy_out_research,"Ball, Rod",energy_business_research,0.0,False
+centre_for_management_buy_out_research,"Ball, Rod",enterprise_research_centre,0.0,False
+centre_for_management_buy_out_research,"Ball, Rod",ghandi_centre,0.0,False
+centre_for_management_buy_out_research,"Ball, Rod",global_finance_tech,0.0,False
+centre_for_management_buy_out_research,"Ball, Rod",health_mgmt,0.0,False
+centre_for_management_buy_out_research,"Ball, Rod",hedge_funds,0.0,False
+centre_for_management_buy_out_research,"Ball, Rod",kpmg,0.0,False
+centre_for_management_buy_out_research,"Ball, Rod",risk_mgmt,0.0,False
+energy_business_research,"Autio, Erkko Prof ",ghandi_centre,0.0836501901141,False
+energy_business_research,"Biffis, Enrico, Dr",risk_mgmt,0.0655737704918,False
+hedge_funds,"Biffis, Enrico, Dr",risk_mgmt,0.0655737704918,False
+risk_mgmt,"Biffis, Enrico, Dr",risk_mgmt,0.0655737704918,True
+energy_business_research,"Della Corte, Pasquale Dr",centre_for_management_buy_out_research,0.0437158469945,False
+hedge_funds,"Della Corte, Pasquale Dr",centre_for_management_buy_out_research,0.0437158469945,False
+risk_mgmt,"Della Corte, Pasquale Dr",centre_for_management_buy_out_research,0.0437158469945,False
+energy_business_research,"Distaso, Walter Dr",ghandi_centre,0.0650887573964,False
+hedge_funds,"Distaso, Walter Dr",ghandi_centre,0.0650887573964,False
+risk_mgmt,"Distaso, Walter Dr",ghandi_centre,0.0650887573964,False
+energy_business_research,"Green, Richard Prof",health_mgmt,0.0633484162896,False
+ghandi_centre,"Green, Richard Prof",health_mgmt,0.0633484162896,False
+energy_business_research,"Kosowski, Robert Dr ",enterprise_research_centre,0.0708661417323,False
+hedge_funds,"Kosowski, Robert Dr ",enterprise_research_centre,0.0708661417323,False
+risk_mgmt,"Kosowski, Robert Dr ",enterprise_research_centre,0.0708661417323,False
+energy_business_research,"Martin, Ralf Dr",enterprise_research_centre,0.0786516853933,False
+energy_business_research,"Ozaki, Ritsuko Dr",energy_business_research,0.0869565217391,True
+energy_business_research,"Smith, Keith Dr",health_mgmt,0.0717299578059,False
+energy_business_research,"Wiesemann, Wolfram Dr",brevan_howard,0.0547945205479,False
+kpmg,"Wiesemann, Wolfram Dr",brevan_howard,0.0547945205479,False
+global_finance_tech,Andrei Kirilenko,ghandi_centre,0.0494505494505,False
+health_mgmt,"Barlow, James Prof",health_mgmt,0.0941176470588,True
+health_mgmt,"Cox, Benita Dr",health_mgmt,0.0822510822511,True
+health_mgmt,"Miraldo, Marisa Dr",brevan_howard,0.0808080808081,False
+kpmg,"Miraldo, Marisa Dr",brevan_howard,0.0808080808081,False
+ghandi_centre,"Miraldo, Marisa Dr",brevan_howard,0.0808080808081,False
+health_mgmt,"de Preux, Laure Dr",enterprise_research_centre,0.0493827160494,False
+health_mgmt,"Propper,",health_mgmt,0.0912698412698,True
+health_mgmt,"Smith, Peter C Professor",health_mgmt,0.0720338983051,True
+health_mgmt,Eliana Barrenho,centre_for_management_buy_out_research,0.0384615384615,False
+hedge_funds,"Cathcart, Lara Dr",brevan_howard,0.0674157303371,False
+risk_mgmt,"Cathcart, Lara Dr",brevan_howard,0.0674157303371,False
+hedge_funds,"Sefton, James Prof",brevan_howard,0.0462962962963,False
+risk_mgmt,"Sefton, James Prof",brevan_howard,0.0462962962963,False
+hedge_funds,"Zaffaroni, Paolo Dr",hedge_funds,0.0530546623794,True
+risk_mgmt,"Zaffaroni, Paolo Dr",hedge_funds,0.0530546623794,False
+hedge_funds,"Abadir, Karim Prof",centre_for_management_buy_out_research,0.0438596491228,False
+risk_mgmt,"Abadir, Karim Prof",centre_for_management_buy_out_research,0.0438596491228,False
+hedge_funds,"Buraschi, Andrea Prof",enterprise_research_centre,0.0454545454545,False
+risk_mgmt,"Buraschi, Andrea Prof",enterprise_research_centre,0.0454545454545,False
+hedge_funds,"Chemla, Gilles Dr",centre_for_management_buy_out_research,0.0783410138249,False
+risk_mgmt,"Chemla, Gilles Dr",centre_for_management_buy_out_research,0.0783410138249,False
+hedge_funds,"Tinn, Katrin Dr",enterprise_research_centre,0.0618556701031,False
+risk_mgmt,"Tinn, Katrin Dr",enterprise_research_centre,0.0618556701031,False
+hedge_funds,Dr Petri Jylha,brevan_howard,0.0759493670886,False
+risk_mgmt,Dr Petri Jylha,brevan_howard,0.0759493670886,False
+hedge_funds,Professor Rustam Ibragimov,enterprise_research_centre,0.046875,False
+risk_mgmt,Professor Rustam Ibragimov,enterprise_research_centre,0.046875,False
+digital_city_exchange,"Gann, David Prof",energy_business_research,0.0560747663551,False
+kpmg,"Kennedy, Mark Dr",kpmg,0.0582329317269,True
+kpmg,"Haskel, Jonathan Professor",brevan_howard,0.0859375,False
+kpmg,"Talluri, Kalyan Professor",brevan_howard,0.0533333333333,False
+ghandi_centre,"Talluri, Kalyan Professor",brevan_howard,0.0533333333333,False
+kpmg,"Sismeiro, Catarina Dr",centre_for_management_buy_out_research,0.0686274509804,False
+ghandi_centre,"Chaturvedi, Sankalp Dr",centre_for_management_buy_out_research,0.0555555555556,False
+ghandi_centre,Andreas Eisingerich,health_mgmt,0.0736434108527,False
+ghandi_centre,"Malhotra, Namrata Dr",risk_mgmt,0.0661157024793,False
+ghandi_centre,Anu Wadhawa,centre_for_management_buy_out_research,0.0572916666667,False
+ghandi_centre,"Alnuaimi, Tufool Dr",ghandi_centre,0.0727272727273,True
+ghandi_centre,"Pinto, Jonathan Dr",enterprise_research_centre,0.036231884058,False
+ghandi_centre,"Mishina, Yuri Dr",centre_for_management_buy_out_research,0.0724637681159,False
