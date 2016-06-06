@@ -197,14 +197,14 @@ accuracy(whitney_20974.A)
 
 
 # Visualise HW
-plot.ts(myrtle_12631.ts)
-plot(myrtle_12631.HW_f)
-lines(fitted(myrtle_12631.HW_f), col="red", lty=2)
+plot.ts(whitney_20974.ts)
+plot(whitney_20974.HW_f)
+lines(fitted(whitney_20974.HW_f), col="red", lty=2)
 
 # Visualise ARIMA
-plot.ts(myrtle_12631.ts)
-plot(myrtle_12631.A_f)
-lines(fitted(myrtle_12631.A), col="red", lty=2)
+plot.ts(whitney_20974.ts)
+plot(whitney_20974.A_f)
+lines(fitted(whitney_20974.A), col="red", lty=2)
 
 
 

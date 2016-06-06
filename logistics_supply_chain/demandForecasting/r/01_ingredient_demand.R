@@ -88,7 +88,7 @@ lettuce_demand_by_shop <- pos_ordersale %>%
   mutate(ninth_46673 = ifelse(storenumber=='46673', lettuce_dde, 0),
          shattuck_4904 = ifelse(storenumber=='4904', lettuce_dde, 0),
          myrtle_12631 = ifelse(storenumber=='12631', lettuce_dde, 0),
-         whitney_20974 = ifelse(storenumber=='46673', lettuce_dde, 0)) %>% 
+         whitney_20974 = ifelse(storenumber=='20974', lettuce_dde, 0)) %>% 
   select(-storenumber, -lettuce_dde) %>% 
   group_by(date) %>% 
   summarise(ninth_46673 = sum(ninth_46673),
